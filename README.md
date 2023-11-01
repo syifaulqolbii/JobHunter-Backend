@@ -20,12 +20,12 @@ Sebelum memulai, pastikan Anda telah menginstal [Node.js](https://nodejs.org/) d
 ## Penggunaan
 
 Deskripsikan bagaimana cara menggunakan proyek Anda atau menjalankan aplikasinya. Contoh: 
-1. Buat file pada folder project dengan nama ```.env``` setelah itu copy isian file ```.example.env``` kedalam file ```env``` lalu atur dengan credentials anda masing masing.
+1. Buat file pada folder project dengan nama ```.env``` setelah itu copy isian file ```.example.env``` kedalam file ```.env``` lalu atur dengan credentials anda masing masing.
 
 2. Langkah pertama: Jalankan aplikasi dengan perintah: ```npm run dev```
 
 
-3. Langkah kedua: Buka aplikasi di browser dengan alamat [http://localhost:3000](http://localhost:3000).
+3. Langkah kedua: Buka aplikasi di browser.
 
 4. Langkah ketiga: Lakukan hal-hal lain sesuai kebutuhan.
 
