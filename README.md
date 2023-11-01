@@ -8,9 +8,9 @@ Sebelum memulai, pastikan Anda telah menginstal [Node.js](https://nodejs.org/) d
 
 ## Instalasi
 
-1. Clone repositori ini ke komputer Anda: 
+1. Clone repositori ini ke komputer Anda: ```git clone https://github.com/syifaulqolbii/final-project-rakamin-backend.git```
 
-2. Masuk ke direktori proyek:
+2. Masuk ke direktori proyek.
 
 
 3. Install semua dependensi yang diperlukan dengan menjalankan perintah: ```npm install ```
