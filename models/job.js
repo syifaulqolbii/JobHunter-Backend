@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Job.init({
     users_id: DataTypes.INTEGER,
     job_name: DataTypes.STRING,
-    type: DataTypes.ENUM,
+    type: DataTypes.ENUM('part-time', 'full-time'),
     category: DataTypes.STRING,
     requirement: DataTypes.STRING,
     description: DataTypes.STRING,

@@ -6,6 +6,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 const routes = require('./routes/index');
 
 app.use(morgan('dev'));
