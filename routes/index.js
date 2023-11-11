@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const kanban = require('../routes/kanban');
+const kanban = require('./kanban');
 
 router.get('/', (req, res) => {
     res.status(200).json({
@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.use('/kanban', kanban);
+router.use('/kanbans', kanban);
 
 
 module.exports = router;
