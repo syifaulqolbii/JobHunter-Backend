@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const job = require('../controllers/job');
+const jobController = require('../controllers/job');
 
 /**
  * @swagger
@@ -14,7 +14,7 @@ const job = require('../controllers/job');
  *              - job_name
  *          properties:
  *              id:
- *                  type: string
+ *                  type: integer
  *                  description: the auto-generated id of job
  *              users_id:
  *                  type: integer
@@ -71,9 +71,9 @@ const job = require('../controllers/job');
 /**
  * @swagger
  * tags:
- *      name: Job
+ *      name: Jobs
  *      description: The job managing API
- * /jobs:
+ * /api/v1/jobs:
  *      get:
  *          summary: Show All Job
  *          tags: [Jobs]
@@ -94,34 +94,36 @@ const job = require('../controllers/job');
 /**
  * @swagger
  * 
- * /jobs/{id}:
- *      get:
- *          summary: Show All Job by users_id
- *          tags: [Jobs]
- *          parameters:
- *              - in: path
- *              name: users_id
- *              required: true
- *              schema:
- *                  type: integer
- *              description: the id of the user job
- *          responses:
- *              200:
- *                  description: All Jobs
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: array
- *                              items:
- *                                  $ref: '#/components/schemas/Job'
- *              500:
- *                  description: some server error
+ * /api/v1/jobs/{users_id}:
+ *   get:
+ *     summary: Show all jobs by user ID
+ *     tags: 
+ *       - Jobs
+ *     parameters:
+ *       - in: path
+ *         name: users_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the user job
+ *     responses:
+ *       200:
+ *         description: All jobs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Job'
+ *       500:
+ *         description: Some server error
  */
+
 
 /**
  * @swagger
  * 
- * /jobs:
+ * /api/v1/jobs:
  *      post:
  *          summary: Create a Job
  *          tags: [Jobs]
@@ -142,12 +144,104 @@ const job = require('../controllers/job');
  *                  description: some server error
  */
 
+/**
+ * @swagger
+ * 
+ * /api/v1/jobs/type/{type}:
+ *   get:
+ *     summary: Filter jobs by type
+ *     tags: 
+ *       - Jobs
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [fulltime, parttime, freelance]
+ *         description: The type of the job
+ *     responses:
+ *       200:
+ *         description: Success get all jobs for type {type}
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Job'
+ *       404:
+ *         description: No jobs found for type {type} in the database.
+ *       500:
+ *         description: Internal server error
+ */
+
+
+/**
+ * @swagger
+ * /api/v1/jobs/category/{category}:
+ *   get:
+ *     summary: Filter jobs by category
+ *     tags: 
+ *       - Jobs
+ *     parameters:
+ *       - in: path
+ *         name: category
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The category of the job
+ *     responses:
+ *       200:
+ *         description: Success get all jobs for category {category}
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Job'
+ *       404:
+ *         description: No jobs found for category {category} in the database.
+ *       500:
+ *         description: Internal server error
+ */
+
+
+/**
+ * @swagger
+ * /api/v1/jobs/{id}:
+ *   delete:
+ *     summary: Delete a job by ID
+ *     tags:
+ *       - Jobs
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the job to delete
+ *     responses:
+ *       200:
+ *         description: Job with ID {id} deleted!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Job'
+ *       404:
+ *         description: Job with ID {id} not found.
+ *       500:
+ *         description: Internal server error
+ */
+
+
+
 // Definisikan rute untuk mendapatkan semua pengguna
-router.get('/', job.findAllJob);
-
+router.get('/', jobController.findAllJob);
 // Definisikan rute untuk mendapatkan semua pekerjaan berdasarkan user_id
-router.get('/:id', job.findAllJobsByUserId);
-
-router.post('/', job.createJob);
+router.get('/:id', jobController.findAllJobsByUserId);
+router.post('/', jobController.createJob);
+router.get('/type/:type', jobController.filterJobsByType);
+router.get('/category/:category', jobController.filterJobsByCategory);
+router.delete('/:id', jobController.deleteJob);
 
 module.exports = router;

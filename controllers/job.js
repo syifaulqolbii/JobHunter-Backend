@@ -19,7 +19,6 @@ module.exports = {
     },
 
     findAllJobsByUserId : async (req, res) => {
-        
         try {
           const users_id = req.params.id;
           const result = await Job.findAll({ where: { users_id: users_id } });
@@ -30,7 +29,7 @@ module.exports = {
         }
       },
 
-      createJob : async (req, res) => {
+    createJob : async (req, res) => {
         try {
           const {
             users_id,
@@ -65,6 +64,91 @@ module.exports = {
             message: 'Internal server error'
           });
         }
-      }
-      
+    },
+
+    filterJobsByType: async (req, res) => {
+        try {
+            const {type} = req.params;
+            const typeJob = await Job.findAll({
+                attributes: ['job_name', 'type', 'category', 'requirement', 'description', 'required_skill', 'salary'], 
+                where: {
+                    type: type
+                }
+            });
+
+            const rowCount = typeJob.length;
+
+            if (rowCount === 0) {
+                return res.status(404).json({
+                    message: `No jobs found for type ${type} in the database.`,
+                });
+            }
+
+            res.status(200).json({
+                message: `Success get all jobs for type ${type}`,
+                data: typeJob
+            })
+        } catch (err) {
+            if (err.name === 'SequelizeDatabaseError') {
+                return res.status(404).json({
+                    message: `The Type is not a valid enum value.`,
+                });
+            };
+
+            res.status(500).json({ 
+                message: 'Internal server error',
+                error: err
+            });
+        }
+    },
+
+    filterJobsByCategory: async (req, res) => {
+        try {
+            const {category} = req.params;
+            const categoryJob = await Job.findAll({
+                attributes: ['job_name', 'type', 'category', 'requirement', 'description', 'required_skill', 'salary'], 
+                where: {
+                    category: category
+                }
+            });
+
+            const rowCount = categoryJob.length;
+
+            if (rowCount === 0) {
+                return res.status(404).json({
+                    message: `No jobs found for category ${category} in the database.`,
+                });
+            }
+
+            res.status(200).json({
+                message: `Success get all jobs for category ${category}`,
+                data: categoryJob
+            })
+        } catch (err) {
+            res.status(500).json({ 
+                message: 'Internal server error',
+                error: err
+            });
+        }
+    },
+
+    deleteJob: async (req, res) => {
+        try {
+            const {id} = req.params;
+            const deleteJob = await Job.destroy({
+                where: { id: id }
+            });
+
+            if (deleteJob > 0) {
+                return res.status(200).json({ message: `Job with id ${id} deleted!` });
+            } else {
+                return res.status(404).json({ message: `Job with id ${id} not found.` });
+            }
+        } catch (err) {
+            res.status(500).json({ 
+                message: 'Internal server error',
+                error: err
+            });
+        }
+    }
 }
