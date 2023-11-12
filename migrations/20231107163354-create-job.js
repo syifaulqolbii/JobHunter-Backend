@@ -18,6 +18,7 @@ module.exports = {
       type: {
         type: Sequelize.ENUM,
         values: ['fulltime', 'parttime', 'freelance'],
+        defaultValue: 'fulltime'
       },
       category: {
         type: Sequelize.STRING
