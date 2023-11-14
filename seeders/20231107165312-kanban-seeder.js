@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Kanbans', [
+    await queryInterface.bulkInsert('kanbans', [
       {
         users_id: 1,
         jobs_id: 1,
