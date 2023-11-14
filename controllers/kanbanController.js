@@ -35,7 +35,7 @@ module.exports = {
     addKanban: async (req, res) => {
         try {
             const id = req.params.id;
-            const userId = req.user.id;
+            const userId = 1;
             const result = await kanban.create({
                 users_id: userId,
                 jobs_id: id,
