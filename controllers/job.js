@@ -1,6 +1,5 @@
 const { Job } = require('../models');
 
-
 module.exports = {
     findAllJob: async (req, res) => {
         try {
