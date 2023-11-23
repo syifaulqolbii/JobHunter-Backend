@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
         },
         status: {
-            type: DataTypes.ENUM('applied', 'accepted', 'rejected'),
+            type: DataTypes.STRING,
             defaultValue: 'applied'
         },
     }, {

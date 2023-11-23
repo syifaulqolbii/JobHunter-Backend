@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const kanbanController = require('../controllers/kanbanController');
+const {authenticate, authorize} = require('../middleware/authMiddleware');
 
-router.get('/', kanbanController.findAllKanbans);
-router.post('/:id', kanbanController.addKanban);
-router.patch('/edit/:id', kanbanController.editStatusKanban);
+router.get('/',authenticate,authorize(["company"]), kanbanController.findAllKanbans);
+router.post('/:id', authenticate, authorize(["company"]), kanbanController.addKanban);
+router.patch('/edit/:id', authenticate, authorize(["company"]), kanbanController.editStatusKanban);
 
 /**
  * @swagger

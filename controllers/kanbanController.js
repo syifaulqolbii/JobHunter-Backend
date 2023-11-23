@@ -20,7 +20,11 @@ module.exports = {
                 ],
                 attributes: {
                     exclude: ["createdAt", "updatedAt"],
+                    include: ["id"]
                 },
+                where: {
+                    users_id: req.userData.userId
+                }
             });
             res.status(200).json({
                 message: 'Get All Data',
@@ -35,7 +39,7 @@ module.exports = {
     addKanban: async (req, res) => {
         try {
             const id = req.params.id;
-            const userId = 1;
+            const userId = req.userData.userId;
             const result = await kanban.create({
                 users_id: userId,
                 jobs_id: id,
