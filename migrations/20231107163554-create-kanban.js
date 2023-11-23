@@ -28,7 +28,8 @@ module.exports = {
                 onUpdate: 'cascade',
             },
             status: {
-                type: Sequelize.ENUM('applied', 'accepted', 'rejected'),
+                type: Sequelize.STRING,
+                allowNull: false,
                 defaultValue: 'applied'
             },
             createdAt: {
