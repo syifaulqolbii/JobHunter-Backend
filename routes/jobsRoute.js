@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jobController = require('../controllers/job');
+const {authenticate, authorize} = require('../middleware/authMiddleware');
 
 /**
  * @swagger
@@ -239,9 +240,9 @@ const jobController = require('../controllers/job');
 router.get('/', jobController.findAllJob);
 // Definisikan rute untuk mendapatkan semua pekerjaan berdasarkan user_id
 router.get('/:id', jobController.findAllJobsByUserId);
-router.post('/', jobController.createJob);
+router.post('/', authenticate, authorize(["company"]), jobController.createJob);
 router.get('/type/:type', jobController.filterJobsByType);
 router.get('/category/:category', jobController.filterJobsByCategory);
-router.delete('/:id', jobController.deleteJob);
+router.delete('/:id', authenticate, authorize(["company"]), jobController.deleteJob);
 
 module.exports = router;
