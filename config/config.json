@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "postgres",
-    "password": "admin",
+    "password": "asibowl32",
     "database": "jobhunter_dev",
     "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "admin",
+    "password": "asibowl32",
     "database": "jobhunter_test",
     "host": "localhost",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "admin",
+    "password": "asibowl32",
     "database": "jobhunter_prod",
     "host": "localhost",
     "dialect": "postgres"

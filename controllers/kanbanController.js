@@ -72,5 +72,66 @@ module.exports = {
                 message: `Internal Server Error` + error,
             });
         }
+    },
+    getCountJobList: async (req, res) => {
+        try  {
+            const result = await Job.findAll({
+                where: {
+                    users_id: req.userData.userId
+                }
+            });
+
+            const count = result.length;
+            res.status(200).json({
+                message: 'Success Count Data Job',
+                data: count
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                message: `Internal Server Error` + error,
+            });
+        }
+    },
+    getCountAppliedJob: async (req, res) => {
+        try  {
+            const result = await kanban.findAll({
+                where: {
+                    users_id: req.userData.userId,
+                }
+            });
+
+            const count = result.length;
+            res.status(200).json({
+                message: 'Success Count Data Applied Job',
+                data: count
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                message: `Internal Server Error` + error,
+            });
+        }
+    },
+    getCountPendingAppliedJob: async (req, res) => {
+        try  {
+            const result = await kanban.findAll({
+                where: {
+                    users_id: req.userData.userId,
+                    status: 'applied'
+                }
+            });
+
+            const count = result.length;
+            res.status(200).json({
+                message: 'Success Count Data Pending Applied Job',
+                data: count
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                message: `Internal Server Error` + error,
+            });
+        }
     }
 }
