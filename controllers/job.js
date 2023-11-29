@@ -19,7 +19,7 @@ module.exports = {
 
     findAllJobsByUserId : async (req, res) => {
         try {
-          const users_id = req.params.id;
+          const users_id = req.userData.userId;
           const result = await Job.findAll({ where: { users_id: users_id } });
           res.json(result);
         } catch (error) {
@@ -30,8 +30,8 @@ module.exports = {
 
     createJob : async (req, res) => {
         try {
+          const users_id = req.userData.userId;
           const {
-            users_id,
             job_name,
             type,
             category,
