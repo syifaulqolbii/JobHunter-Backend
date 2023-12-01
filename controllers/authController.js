@@ -35,11 +35,11 @@ const login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid password' });
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, 'sangatrahasia', {
+    const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1h', 
     });
 
-    res.json({ token });
+    res.json({ token, role: user.role });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
