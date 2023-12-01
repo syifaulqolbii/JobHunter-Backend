@@ -6,6 +6,9 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
 router.get('/',authenticate,authorize(["company"]), kanbanController.findAllKanbans);
 router.post('/:id', authenticate, authorize(["company"]), kanbanController.addKanban);
 router.patch('/edit/:id', authenticate, authorize(["company"]), kanbanController.editStatusKanban);
+router.get('/countJob', authenticate, authorize(["company"]), kanbanController.getCountJobList);
+router.get('/countApplicant', authenticate, authorize(["company"]), kanbanController.getCountAppliedJob);
+router.get('/countPending', authenticate, authorize(["company"]), kanbanController.getCountPendingAppliedJob);
 
 /**
  * @swagger
