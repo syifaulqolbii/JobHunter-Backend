@@ -1,4 +1,7 @@
 const {kanban, User, Job} = require("../models");
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const sequelizeConfig = require('../config/config.json');
+const sequelize = new Sequelize(sequelizeConfig.development);
 
 module.exports = {
     findAllKanbans: async (req, res) => {
@@ -31,6 +34,60 @@ module.exports = {
                 data: result
             });
         } catch (error) {
+            res.status(500).json({
+                message: `Internal Server Error` + error,
+            });
+        }
+    },
+    findKanbanByCompanyId: async (req, res) => {
+        try {
+            const result = await kanban.findAll({
+                include: [
+                    {
+                        model: User,
+                        attributes: {
+                            exclude: ["password", "createdAt", "updatedAt"],
+                        },
+                    },
+                    {
+                        model: Job,
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"],
+                        },
+                        include: [
+                            {
+                                model: User,
+                                attributes: {
+                                    exclude: ["password", "createdAt", "updatedAt"],
+                                },
+                                where: {
+                                    id: req.userData.userId  // Filtering jobs owned by the logged-in user
+                                },
+                            },
+                        ],
+                    },
+                ],
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"],
+                    include: ["id"]
+                },
+                where: {
+                    // Adjust this condition based on your actual kanban model
+                    // to match jobs posted by the logged-in user
+                    // Example: jobs_id should match the jobs posted by the logged-in user
+                    jobs_id: {
+                        [Op.in]: sequelize.literal(
+                            `(select id from "Jobs" where users_id = ${req.userData.userId})`
+                        ),
+                    },
+                },
+            });
+            await sequelize.close();
+            res.status(200).json({
+                message: 'Get All Data',
+                data: result
+            });
+        }catch (error) {
             res.status(500).json({
                 message: `Internal Server Error` + error,
             });
@@ -95,16 +152,21 @@ module.exports = {
     },
     getCountAppliedJob: async (req, res) => {
         try  {
-            const result = await kanban.findAll({
-                where: {
-                    users_id: req.userData.userId,
-                }
+            const result = await kanban.count({
+                include: [
+                    {
+                        model: Job,
+                        attributes: [], // Exclude job attributes from the result
+                        where: {
+                            users_id: req.userData.userId, // Assuming this is the user who posted the job
+                        },
+                    },
+                ],
             });
 
-            const count = result.length;
             res.status(200).json({
                 message: 'Success Count Data Applied Job',
-                data: count
+                data: result
             });
 
         } catch (error) {
@@ -115,17 +177,20 @@ module.exports = {
     },
     getCountPendingAppliedJob: async (req, res) => {
         try  {
-            const result = await kanban.findAll({
+            const result = await kanban.count({
                 where: {
-                    users_id: req.userData.userId,
-                    status: 'applied'
-                }
+                    status: 'applied',
+                    jobs_id: {
+                        [Op.in]: sequelize.literal(
+                            `(SELECT id FROM "Jobs" WHERE users_id = ${req.userData.userId})`
+                        ),
+                    },
+                },
             });
 
-            const count = result.length;
             res.status(200).json({
                 message: 'Success Count Data Pending Applied Job',
-                data: count
+                data: result
             });
 
         } catch (error) {

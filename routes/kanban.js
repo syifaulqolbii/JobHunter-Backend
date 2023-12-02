@@ -9,6 +9,7 @@ router.patch('/edit/:id', authenticate, authorize(["company"]), kanbanController
 router.get('/countJob', authenticate, authorize(["company"]), kanbanController.getCountJobList);
 router.get('/countApplicant', authenticate, authorize(["company"]), kanbanController.getCountAppliedJob);
 router.get('/countPending', authenticate, authorize(["company"]), kanbanController.getCountPendingAppliedJob);
+router.get('/kanbanByCompany', authenticate, authorize(["company"]), kanbanController.findKanbanByCompanyId);
 
 /**
  * @swagger
