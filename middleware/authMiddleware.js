@@ -8,7 +8,7 @@ const authenticate = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'sangatrahasia');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userData = decoded;
     next();
   } catch (error) {
