@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const jobController = require('../controllers/job');
-const {authenticate, authorize} = require('../middleware/authMiddleware');
+const jobController = require("../controllers/job");
+const { authenticate, authorize } = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -9,7 +9,7 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *    schemas:
  *      Job:
  *          type: object
- *          required: 
+ *          required:
  *              - id
  *              - users_id
  *              - job_name
@@ -38,7 +38,7 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *                  description: the requirement of the job
  *              description:
  *                  type: string
- *                  description: the description of the job 
+ *                  description: the description of the job
  *              required_skill:
  *                  type: string
  *                  description: the requirement skill of the job
@@ -53,7 +53,7 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *                  type: string
  *                  format: date
  *                  description: the date updated of the job
- *          example: 
+ *          example:
  *              id: 1
  *              users_id: 2
  *              job_name: Frontend Developer
@@ -65,8 +65,8 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *              salary: Rp. 10.000.000
  *              createdAt: 2023-11-09T13:26:09.782Z
  *              updatedAt: 2023-11-09T13:26:09.782Z
- * 
- * 
+ *
+ *
  */
 
 /**
@@ -91,14 +91,13 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *                  description: some server error
  */
 
-
 /**
  * @swagger
- * 
+ *
  * /api/v1/jobs/{users_id}:
  *   get:
  *     summary: Show all jobs by user ID
- *     tags: 
+ *     tags:
  *       - Jobs
  *     parameters:
  *       - in: path
@@ -120,10 +119,9 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *         description: Some server error
  */
 
-
 /**
  * @swagger
- * 
+ *
  * /api/v1/jobs:
  *      post:
  *          summary: Create a Job
@@ -147,11 +145,11 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
 
 /**
  * @swagger
- * 
+ *
  * /api/v1/jobs/type/{type}:
  *   get:
  *     summary: Filter jobs by type
- *     tags: 
+ *     tags:
  *       - Jobs
  *     parameters:
  *       - in: path
@@ -176,13 +174,12 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *         description: Internal server error
  */
 
-
 /**
  * @swagger
  * /api/v1/jobs/category/{category}:
  *   get:
  *     summary: Filter jobs by category
- *     tags: 
+ *     tags:
  *       - Jobs
  *     parameters:
  *       - in: path
@@ -205,7 +202,6 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *       500:
  *         description: Internal server error
  */
-
 
 /**
  * @swagger
@@ -234,15 +230,16 @@ const {authenticate, authorize} = require('../middleware/authMiddleware');
  *         description: Internal server error
  */
 
-
-
 // Definisikan rute untuk mendapatkan semua pengguna
-router.get('/', jobController.findAllJob);
+router.get("/", jobController.findAllJob);
 // Definisikan rute untuk mendapatkan semua pekerjaan berdasarkan user_id
-router.get('/userId', authenticate, authorize(["company"]), jobController.findAllJobsByUserId);
-router.post('/', authenticate, authorize(["company"]), jobController.createJob);
-router.get('/type/:type', jobController.filterJobsByType);
-router.get('/category/:category', jobController.filterJobsByCategory);
-router.delete('/:id', authenticate, authorize(["company"]), jobController.deleteJob);
+router.get("/company/:id", jobController.findAllJobsByUserId);
+router.post("/", authenticate, authorize(["company"]), jobController.createJob);
+router.get("/:id", jobController.showJobById);
+router.patch("/:id", authenticate, authorize(["company"]), jobController.editJob);
+router.get("/type/:type", jobController.filterJobsByType);
+router.get("/category/:category", jobController.filterJobsByCategory);
+router.get("/showCompanyByJob/:id", jobController.showCompanyByJob);
+router.delete("/:id", authenticate, authorize(["company"]), jobController.deleteJob);
 
 module.exports = router;
