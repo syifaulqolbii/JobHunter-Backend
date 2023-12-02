@@ -18,15 +18,16 @@ module.exports = {
       type: {
         type: Sequelize.ENUM,
         values: ['fulltime', 'parttime', 'freelance'],
+        defaultValue: 'fulltime'
       },
       category: {
         type: Sequelize.STRING
       },
       requirement: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       required_skill: {
         type: Sequelize.STRING
