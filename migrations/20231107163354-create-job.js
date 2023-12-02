@@ -24,10 +24,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       requirement: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       required_skill: {
         type: Sequelize.STRING
