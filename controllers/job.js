@@ -19,8 +19,8 @@ module.exports = {
 
   findAllJobsByUserId: async (req, res) => {
     try {
-      const users_id = req.userData.userId;
-      const result = await Job.findAll({ where: { users_id: users_id } });
+      const userId = req.userData.userId;
+      const result = await Job.findAll({ where: { users_id: userId } });
       res.json(result);
     } catch (error) {
       console.error(error);

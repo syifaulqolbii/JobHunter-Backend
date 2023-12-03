@@ -233,7 +233,7 @@ const { authenticate, authorize } = require("../middleware/authMiddleware");
 // Definisikan rute untuk mendapatkan semua pengguna
 router.get("/", jobController.findAllJob);
 // Definisikan rute untuk mendapatkan semua pekerjaan berdasarkan user_id
-router.get("/company/:id", jobController.findAllJobsByUserId);
+router.get("/company",authenticate,authorize(['company']), jobController.findAllJobsByUserId);
 router.post("/", authenticate, authorize(["company"]), jobController.createJob);
 router.get("/:id", jobController.showJobById);
 router.patch("/:id", authenticate, authorize(["company"]), jobController.editJob);
