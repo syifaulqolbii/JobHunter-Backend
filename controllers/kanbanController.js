@@ -19,16 +19,23 @@ module.exports = {
                         attributes: {
                             exclude: ["createdAt", "updatedAt"],
                         },
+                        include: [
+                            {
+                                model: User,
+                                attributes: ["name"], // Include only the 'name' attribute of the user who created the job
+                            },
+                        ],
                     },
                 ],
                 attributes: {
                     exclude: ["createdAt", "updatedAt"],
-                    include: ["id"]
+                    include: ["id"],
                 },
                 where: {
-                    users_id: req.userData.userId
-                }
+                    users_id: req.userData.userId,
+                },
             });
+
             res.status(200).json({
                 message: 'Get All Data',
                 data: result
